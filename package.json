@@ -1,0 +1,22 @@
+{
+  "name": "gulp-kick-off",
+  "version": "1.0.0",
+  "description": "Minimal gulp setup for building front-end projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sashoa/gulp-kick-off.git"
+  },
+  "keywords": [
+    "gulp"
+  ],
+  "author": "Sashe Apostolovski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sashoa/gulp-kick-off/issues"
+  },
+  "homepage": "https://github.com/sashoa/gulp-kick-off#readme"
+}
