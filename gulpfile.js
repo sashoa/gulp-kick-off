@@ -22,7 +22,7 @@ let browserSync = require('browser-sync').create();
 let buildProduction = utilities.env.production;
 
 gulp.task('concatJS', () => {
-  return gulp.src(['./js/*-interface.js'])
+  return gulp.src(['./js/*-ui.js'])
     .pipe(concat('all.js'))
     .pipe(gulp.dest('./tmp'));
 });
