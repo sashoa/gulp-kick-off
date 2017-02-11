@@ -4,7 +4,17 @@ let browserify = require('browserify');
 let source = require('vinyl-source-stream');
 let concat = require('gulp-concat');
 let uglify = require('gulp-uglify');
-let lib = require('bower-files');
+let lib = require('bower-files')({
+  overrides: {
+    bootstrap: {
+      main: [
+        'scss/bootstrap.scss',
+        'dist/css/bootstrap.css',
+        'dist/js/bootstrap.js'
+      ]
+    }
+  }
+});
 let utilities = require('gulp-util');
 let del = require('del');
 let browserSync = require('browser-sync').create();
@@ -25,10 +35,15 @@ gulp.task('browserifyJS', ['concatJS'], () => {
     .pipe(gulp.dest('./build/js'));
 });
 
-gulp.tast('minifyJS', ['browserifyJS'], () => {
+gulp.task('minifyJS', ['browserifyJS'], () => {
   return gulp.src('./build/js/app.js')
     .pipe(uglify())
     .pipe(gulp.dest('./build/js'));
+})
+
+gulp.task('buildCSS', () => {
+  gulp.src('css/*.css')
+    .pipe(gulp.dest('./build/css'));
 })
 
 gulp.task('bowerJS', () => {
@@ -44,7 +59,7 @@ gulp.task('bowerCSS', () => {
     .pipe(gulp.dest('./build/css'));
 })
 
-gulp.task('bower' ['bowerJS', 'bowerCSS']);
+gulp.task('bower', ['bowerJS', 'bowerCSS']);
 
 gulp.task('clean', () => {
   return del(['build', 'tmp']);
@@ -58,26 +73,29 @@ gulp.task('build', ['clean'], () => {
     gulp.start('browserifyJS');
   }
   gulp.start('bower');
+  gulp.start('buildCSS');
 })
 
-gulp.task('serve', () => {
+gulp.task('serve', ['build'], () => {
   browserSync.init({
     server: {
       baseDir: './',
       index: 'index.html'
     }
   });
+  gulp.watch(['index.html'], ['htmlBuild']);
   gulp.watch(['js/*.js'], ['jsBuild']);
   gulp.watch(['css/*.css'], ['cssBuild']);
   gulp.watch(['bower.json'], ['bowerBuild']);
 });
 
+gulp.task('htmlBuild', () => {
+  browserSync.reload();
+})
 gulp.task('jsBuild', ['browserifyJS'], () => {
   browserSync.reload();
 })
-gulp.task('cssBuild', () => {
-  gulp.src('css/*.css')
-    .pipe(gulp.dest('./build/css'));
+gulp.task('cssBuild', ['buildCSS'], () => {
   browserSync.reload();
 })
 gulp.task('bowerBuild', ['bower'], () => {
