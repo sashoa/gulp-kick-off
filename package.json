@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/sashoa/gulp-kick-off/issues"
   },
-  "homepage": "https://github.com/sashoa/gulp-kick-off#readme"
+  "homepage": "https://github.com/sashoa/gulp-kick-off#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
 }
