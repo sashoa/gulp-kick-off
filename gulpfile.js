@@ -4,6 +4,7 @@ let browserify = require('browserify');
 let source = require('vinyl-source-stream');
 let concat = require('gulp-concat');
 let uglify = require('gulp-uglify');
+let lib = require('bower-files');
 
 gulp.task('concatJS', () => {
   return gulp.src(['./js/*-interface.js'])
@@ -24,3 +25,18 @@ gulp.tast('minifyJS', ['browserifyJS'], () => {
     .pipe(uglify())
     .pipe(gulp.dest('./build/js'));
 })
+
+gulp.task('bowerJS', () => {
+  return gulp.src(lib.ext('js').files)
+    .pipe(concat('vendor.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('./build/js'));
+})
+
+gulp.task('bowerCSS', () => {
+  return gulp.src(lib.ext('css').files)
+    .pipe(concat('vendor.css'))
+    .pipe(gulp.dest('./build/css'));
+})
+
+gulp.task('bower' ['bowerJS', 'bowerCSS']);
