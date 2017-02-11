@@ -5,6 +5,10 @@ let source = require('vinyl-source-stream');
 let concat = require('gulp-concat');
 let uglify = require('gulp-uglify');
 let lib = require('bower-files');
+let utilities = require('gulp-util');
+let del = require('del');
+
+let buildProduction = utilities.env.production;
 
 gulp.task('concatJS', () => {
   return gulp.src(['./js/*-interface.js'])
@@ -40,3 +44,17 @@ gulp.task('bowerCSS', () => {
 })
 
 gulp.task('bower' ['bowerJS', 'bowerCSS']);
+
+gulp.task('clean', () => {
+  return del(['build', 'tmp']);
+})
+
+gulp.task('build', ['clean'], () => {
+  if (buildProduction) {
+    gulp.start('minifyJS');
+  }
+  else {
+    gulp.start('browserifyJS');
+  }
+  gulp.start('bower');
+})
