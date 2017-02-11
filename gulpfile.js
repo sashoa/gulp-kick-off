@@ -7,6 +7,7 @@ let uglify = require('gulp-uglify');
 let lib = require('bower-files');
 let utilities = require('gulp-util');
 let del = require('del');
+let browserSync = require('browser-sync').create();
 
 let buildProduction = utilities.env.production;
 
@@ -57,4 +58,28 @@ gulp.task('build', ['clean'], () => {
     gulp.start('browserifyJS');
   }
   gulp.start('bower');
+})
+
+gulp.task('serve', () => {
+  browserSync.init({
+    server: {
+      baseDir: './',
+      index: 'index.html'
+    }
+  });
+  gulp.watch(['js/*.js'], ['jsBuild']);
+  gulp.watch(['css/*.css'], ['cssBuild']);
+  gulp.watch(['bower.json'], ['bowerBuild']);
+});
+
+gulp.task('jsBuild', ['browserifyJS'], () => {
+  browserSync.reload();
+})
+gulp.task('cssBuild', () => {
+  gulp.src('css/*.css')
+    .pipe(gulp.dest('./build/css'));
+  browserSync.reload();
+})
+gulp.task('bowerBuild', ['bower'], () => {
+  browserSync.reload();
 })
