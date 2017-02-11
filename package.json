@@ -20,6 +20,13 @@
   },
   "homepage": "https://github.com/sashoa/gulp-kick-off#readme",
   "devDependencies": {
-    "gulp": "^3.9.1"
+    "babel-preset-es2015": "^6.22.0",
+    "babelify": "^7.3.0",
+    "bower-files": "^3.14.1",
+    "browserify": "^14.0.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^2.0.1",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
